@@ -22,14 +22,22 @@ class MainScene extends Phaser.Scene {
     });
 
     this.objects = [];
-    const ship = new Ship({
+    this.objects.push(new Ship({
       scene: this,
       x: 100,
       y: 220,
       key: 'ships',
       frame: 'ship (4).png',
-    });
-    this.objects.push(ship);
+      sail: { x: -1, y: 1 },
+    }));
+    this.objects.push(new Ship({
+      scene: this,
+      x: 560,
+      y: 220,
+      key: 'ships',
+      frame: 'ship (5).png',
+      sail: { x: -1, y: 0 },
+    }));
 
     const { Vector } = Phaser.Physics.Matter.Matter;
     const direction = Vector.create(0, 1);
@@ -37,12 +45,10 @@ class MainScene extends Phaser.Scene {
     const forceMagnitude = 0.0001;
     const force = Vector.mult(normal, forceMagnitude);
 
-    const sail = Vector.create(-1, 1);
-    const sailNormal = Vector.normalise(Vector.perp(sail, true));
-    const sailForce = Vector.mult(sailNormal, forceMagnitude);
-
     this.matter.world.on('beforeupdate', () => {
       this.objects.forEach((object) => {
+        const sailNormal = Vector.normalise(Vector.perp(object.sail, true));
+        const sailForce = Vector.mult(sailNormal, forceMagnitude);
         object.sprite.applyForce(sailForce);
         // TODO: Apply a maximum velocity somehow
         // TODO: Apply some friction from the water to slow down boat if sails put up
