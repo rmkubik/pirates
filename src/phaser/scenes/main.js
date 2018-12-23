@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
 import Map from '../map/map';
+import Ship from '../prefabs/ship';
 
 class MainScene extends Phaser.Scene {
   constructor() {
@@ -21,17 +22,13 @@ class MainScene extends Phaser.Scene {
     });
 
     this.objects = [];
-    const ship = this.matter.add.sprite(100, 220, 'ships', 'ship (4).png');
-    // this.bodyShape = {
-    //   shape: {
-    //       type: 'rectangle',
-    //       height: 40,
-    //       width: 32,
-    //       x: 8,
-    //       y: 4,
-    //     }
-    // };
-    // this.sprite = config.scene.matter.add.sprite(config.x, config.y, config.key, config.frame, this.bodyShape);
+    const ship = new Ship({
+      scene: this,
+      x: 100,
+      y: 220,
+      key: 'ships',
+      frame: 'ship (4).png',
+    });
     this.objects.push(ship);
 
     const { Vector } = Phaser.Physics.Matter.Matter;
@@ -46,7 +43,7 @@ class MainScene extends Phaser.Scene {
 
     this.matter.world.on('beforeupdate', () => {
       this.objects.forEach((object) => {
-        object.applyForce(sailForce);
+        object.sprite.applyForce(sailForce);
         // TODO: Apply a maximum velocity somehow
         // TODO: Apply some friction from the water to slow down boat if sails put up
         // TODO: Apply a fraction of the force depending on the angle of the sails
