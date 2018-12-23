@@ -10,10 +10,10 @@ class LoadScene extends Phaser.Scene {
 
   preload() {
     this.load.spritesheet('tiles', tilesSheet, {
-      frameWidth: 16,
-      frameHeight: 16,
-      spacing: 1,
-      margin: 1,
+      frameWidth: 128,
+      frameHeight: 128,
+      spacing: 0,
+      margin: 0,
     });
 
     this.load.atlasXML('ships', shipsSheet, shipsXml);
