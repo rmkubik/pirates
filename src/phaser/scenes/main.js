@@ -10,7 +10,7 @@ class MainScene extends Phaser.Scene {
   }
 
   create() {
-
+    const ship = this.add.sprite(300, 300, 'ships', 'ship (4).png');
   }
 }
 
